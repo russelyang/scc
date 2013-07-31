@@ -13,19 +13,39 @@ import java.util.List;
 
 public class Vertex {
     public Integer lbl;
-    public Integer finish;
+    public Integer d;
+    public Integer f;
+    public Integer leader;
+    public Integer color; // 0 - white , 1 - grey , 2 - black
 
     private List<Vertex> transposedAdj;
+    private List<Vertex> adj;
 
 
     public Vertex(int lbl) {
         this.lbl = lbl;
         transposedAdj = new ArrayList<Vertex>();
-        finish = 0;
+        adj = new ArrayList<Vertex>();
+        d = 0;
+        f = 0;
+        leader = 0;
+        color = 0;
     }
 
-    public void AddTransposedVertex(Vertex vertex) {
+    public void addTransposedVertex(Vertex vertex) {
         transposedAdj.add(vertex);
+    }
+
+    public void addVertex(Vertex vertex) {
+        adj.add(vertex);
+    }
+
+    public List<Vertex> getAdjacentList()  {
+        return adj;
+    }
+
+    public List<Vertex> getTransposedAdjacentList() {
+       return transposedAdj;
     }
 
     @Override
@@ -41,6 +61,6 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return "lbl:" + lbl + "f:" + finish;
+        return "lbl:" + lbl + "d:" + d  + "f:" + this.f;
     }
 }

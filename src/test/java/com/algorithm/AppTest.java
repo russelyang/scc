@@ -35,7 +35,7 @@ public class AppTest
         g.addVertex(new Vertex(1));
         g.addVertex(new Vertex(2));
 
-        assertEquals(2, g.numberOfVerices());
+        assertEquals(2, g.numberOfVertices());
     }
 
     public void testContains()
@@ -44,7 +44,7 @@ public class AppTest
         Vertex v = new Vertex(1);
         g.addVertex(v);
         Vertex v2 = new Vertex(1);
-        assertTrue(g.contains(v2));
+        assertTrue(g.contains(v2.lbl));
     }
 
     /**
@@ -77,9 +77,28 @@ public class AppTest
         g.addEdge( new Edge(new Vertex(9), new Vertex(7)));
         g.addEdge( new Edge(new Vertex(9), new Vertex(3)));
 
+        //transpose
+        g.transpose();
+        // first dfs loop
+        g.firstDfsLoop();
+        // get SCC
+        g.secondDfsLoop();
 
+        assertEquals(9, g.numberOfVertices());
+        assertEquals(3, g.sccs.size());
+    }
 
-        assertEquals(9, g.numberOfVerices());
+    public void testFinishTime() {
+        Graph g = new Graph();
+        g.addEdge(new Edge(new Vertex(1), new Vertex(2)));
+        g.addEdge(new Edge(new Vertex(1), new Vertex(4)));
+        g.addEdge(new Edge(new Vertex(2), new Vertex(3)));
+        g.addEdge(new Edge(new Vertex(3), new Vertex(4)));
+        g.addEdge(new Edge(new Vertex(4), new Vertex(2)));
+
+        g.transpose();
+        g.firstDfsLoop();
+
     }
 
     public void testTranspose()
@@ -88,6 +107,17 @@ public class AppTest
         g.addEdge(new Edge(new Vertex(1), new Vertex(2)));
         g.addEdge(new Edge(new Vertex(1), new Vertex(3)));
         g.addEdge(new Edge(new Vertex(2), new Vertex(3)));
+
+        g.transpose();
+
+        assertEquals(g.vertices.get(1).getAdjacentList().size(), 2);
+        assertEquals(g.vertices.get(2).getAdjacentList().size(), 1);
+        assertEquals(g.vertices.get(3).getAdjacentList().size(), 0);
+
+
+        assertEquals(g.vertices.get(1).getTransposedAdjacentList().size(), 0);
+        assertEquals(g.vertices.get(2).getTransposedAdjacentList().size(), 1);
+        assertEquals(g.vertices.get(3).getTransposedAdjacentList().size(), 2);
 
     }
 }
